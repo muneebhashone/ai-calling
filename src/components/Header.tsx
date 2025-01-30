@@ -65,7 +65,7 @@ export function Header({ scrolled }: HeaderProps) {
             SmartOX
           </span>
         </div> */}
-        <Image src={smartox} alt="SmartOX" width={150} height={60} />
+        <Image src={smartox} alt="SmartOX" width={150} height={60} className={scrolled ? "invert-0" : "invert"} />
 
         {/* Menu Items */}
         <div className="hidden md:flex items-center gap-2">
