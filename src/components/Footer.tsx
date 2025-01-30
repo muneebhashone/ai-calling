@@ -84,7 +84,7 @@ export function Footer() {
           </div>
         </div> */}
         <div className="border-t border-slate-800 p-8 text-center">
-          <p>&copy; 2024 VoiceAI. All rights reserved.</p>
+          <p>&copy; 2025 Smartox. All rights reserved.</p>
         </div>
       </div>
     </footer>

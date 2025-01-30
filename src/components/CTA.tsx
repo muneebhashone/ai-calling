@@ -8,7 +8,7 @@ export function CTA() {
   return (
     <section className="py-20 bg-gradient-to-r from-foreground to-foreground relative overflow-hidden">
     
-      <div className="container mx-auto px-6 max-w-4xl text-center relative z-10">
+      <div className="container mx-auto px-6 max-w-8xl text-center relative z-10">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
           Ready to Transform Your Customer Communication?
         </h2>

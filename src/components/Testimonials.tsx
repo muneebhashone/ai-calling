@@ -69,7 +69,7 @@ export function Testimonials() {
 
   return (
     <section className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto px-6 max-w-8xl">
         <div className="text-center mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

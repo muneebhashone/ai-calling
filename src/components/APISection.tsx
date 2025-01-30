@@ -91,7 +91,7 @@ export function APISection() {
 
   return (
     <section className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto px-6 max-w-8xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <motion.h2

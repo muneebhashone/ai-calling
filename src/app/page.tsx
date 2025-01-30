@@ -14,14 +14,12 @@ import { VoiceLibrary } from "@/components/VoiceLibrary";
 import { UseCases } from "@/components/UseCases";
 import { APISection } from "@/components/APISection";
 import Pricing from "@/components/Pricing";
+import Form from "@/components/Form";
 
 export default function Home() {
- 
   const [scrolled, setScrolled] = useState(false);
- 
-  useEffect(() => {
-    
 
+  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
@@ -32,23 +30,43 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-900">
-      <Header
-        scrolled={scrolled}
-      
-      />
-      <Hero
-       
-      />
-      <Features />
-      <VoiceLibrary />
-      <APISection />
-      <UseCases />
-      <Stats />
-      <Testimonials />
-      <Pricing />
-      <Team />
-      <CTA/>
-      <Footer />
+      <Header scrolled={scrolled} />
+      <div id="hero">
+        <Hero />
+      </div>
+      <div id="features">
+        <Features />
+      </div>
+      <div id="how-it-works">
+        <VoiceLibrary />
+      </div>
+      <div id="api">
+        <APISection />
+      </div>
+      <div id="use-cases">
+        <UseCases />
+      </div>
+      <div id="stats">
+        <Stats />
+      </div>
+      <div id="testimonials">
+        <Testimonials />
+      </div>
+      <div id="pricing">
+        <Pricing />
+      </div>
+      <div id="team">
+        <Team />
+      </div>
+      <div id="contact">
+        <CTA />
+      </div>
+      <div id="form">
+        <Form />
+      </div>
+      <div id="get-started">
+        <Footer />
+      </div>
     </div>
   );
 }

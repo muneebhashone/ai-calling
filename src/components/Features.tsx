@@ -1,135 +1,141 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { MessageSquare, Globe2, Shield, Headphones } from "lucide-react";
+import Image from "next/image";
 
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
+type FeatureTitle =
+  | "Natural Language"
+  | "Multilingual Support"
+  | "Enterprise Security"
+  | "24/7 Support";
 
-const features = [
+const featureImages: Record<FeatureTitle, string> = {
+  "Natural Language":
+    "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=2070&auto=format&fit=crop",
+  "Multilingual Support":
+    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+  "Enterprise Security":
+    "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2032&auto=format&fit=crop",
+  "24/7 Support":
+    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop",
+};
+
+interface Feature {
+  icon: JSX.Element;
+  title: FeatureTitle;
+  description: string;
+}
+
+const features: Feature[] = [
   {
     icon: <MessageSquare className="w-6 h-6" />,
     title: "Natural Language",
-    description: "Human-like conversations powered by advanced AI",
+    description:
+      "Human-like conversations powered by advanced AI. Our natural language processing ensures smooth and contextual interactions.",
   },
   {
     icon: <Globe2 className="w-6 h-6" />,
     title: "Multilingual Support",
-    description: "Communicate in 100+ languages seamlessly",
+    description:
+      "Communicate in 100+ languages seamlessly. Break down language barriers and reach a global audience with ease.",
   },
   {
     icon: <Shield className="w-6 h-6" />,
     title: "Enterprise Security",
-    description: "Bank-grade encryption and privacy",
+    description:
+      "Bank-grade encryption and privacy protection. Your data security is our top priority with advanced encryption protocols.",
   },
   {
     icon: <Headphones className="w-6 h-6" />,
     title: "24/7 Support",
-    description: "Always here when you need us",
+    description:
+      "Always here when you need us. Get instant help from our dedicated support team around the clock.",
   },
 ];
 
-const ROTATION_RANGE = 32.5;
-const HALF_ROTATION_RANGE = 32.5 / 2;
-
-function TiltCard({ feature }: { feature: (typeof features)[0] }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const xSpring = useSpring(x);
-  const ySpring = useSpring(y);
-
-  const transform = useMotionTemplate`rotateX(${xSpring}deg) rotateY(${ySpring}deg)`;
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!ref.current) return;
-
-    const rect = ref.current.getBoundingClientRect();
-
-    const width = rect.width;
-    const height = rect.height;
-
-    const mouseX = (e.clientX - rect.left) * ROTATION_RANGE;
-    const mouseY = (e.clientY - rect.top) * ROTATION_RANGE;
-
-    const rX = (mouseY / height - HALF_ROTATION_RANGE) * -1;
-    const rY = mouseX / width - HALF_ROTATION_RANGE;
-
-    x.set(rX);
-    y.set(rY);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
+function FeatureCard({
+  feature,
+  inView,
+}: {
+  feature: (typeof features)[0];
+  inView: boolean;
+}) {
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        transformStyle: "preserve-3d",
-        transform,
-      }}
-      className="relative h-72 rounded-xl bg-foreground group"
+    <div
+      className={`flex gap-x-8 items-start transition-all ${
+        inView ? "opacity-100" : "opacity-50"
+      }`}
     >
-      <div
-        style={{
-          transform: "translateZ(50px)",
-          transformStyle: "preserve-3d",
-        }}
-        className="absolute inset-4 rounded-xl bg-background shadow-lg p-6"
-      >
-        <div
-          style={{
-            transform: "translateZ(40px)",
-          }}
-          className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
-        >
-          {React.cloneElement(feature.icon, {
-            className: "w-6 h-6 text-foreground",
-          })}
-        </div>
-        <h3
-          style={{
-            transform: "translateZ(30px)",
-          }}
-          className="text-xl font-semibold mb-2"
-        >
+      <div className="w-12 h-12 shrink-0 bg-gray-400 rounded-full flex items-center justify-center">
+        {React.cloneElement(feature.icon, {
+          className: "w-6 h-6 text-foreground",
+        })}
+      </div>
+      <div>
+        <h3 className="text-xl font-semibold mb-2 text-foreground">
           {feature.title}
         </h3>
-        <p
-          style={{
-            transform: "translateZ(20px)",
-          }}
-          className="text-slate-600"
-        >
+        <p className="text-slate-600 dark:text-slate-300">
           {feature.description}
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export function Features() {
+  const [activeFeature, setActiveFeature] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % features.length);
+    }, 2000); // Change feature every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section id="features" className="py-20 bg-background">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <h2 className="text-4xl md:text-5xl text-foreground font-bold text-center mb-16">
-          Powerful Features for Modern Communication
-         
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <TiltCard key={index} feature={feature} />
-          ))}
+    <section className="relative bg-background py-32">
+      <div className="container mx-auto px-6 max-w-8xl">
+        <div className="relative">
+          <h2 className="text-4xl md:text-5xl text-foreground font-bold text-center w-full mb-32">
+            Powerful Features for Modern Communication
+          </h2>
+          <div className="grid grid-cols-2 gap-16">
+            {/* Left side - Feature list */}
+            <div className="space-y-16 py-8">
+              {features.map((feature, index) => (
+                <FeatureCard
+                  key={index}
+                  feature={feature}
+                  inView={index === activeFeature}
+                />
+              ))}
+            </div>
+
+            {/* Right side - Feature visualization */}
+            <div className="relative rounded-2xl overflow-hidden h-[600px]">
+              <Image
+                src={featureImages[features[activeFeature].title]}
+                alt={features[activeFeature].title}
+                fill
+                className="object-cover transition-all duration-1000 transform hover:scale-105"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute inset-0 flex flex-col items-start justify-end p-8">
+                {React.cloneElement(features[activeFeature].icon, {
+                  className: "w-16 h-16 text-white animate-float mb-4",
+                })}
+                <h4 className="text-xl font-semibold text-white mb-2">
+                  {features[activeFeature].title}
+                </h4>
+                <p className="text-sm text-white max-w-md">
+                  {features[activeFeature].description}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

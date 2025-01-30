@@ -24,8 +24,8 @@ const people = [
 
 export function Team() {
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="container mx-auto px-6 max-w-6xl">
+    <section className="py-20 bg-gray-100">
+      <div className="container mx-auto px-6 max-w-8xl">
         <h2 className="text-4xl md:text-5xl font-bold text-center text-foreground mb-16">
           Meet Our Leadership Team
         </h2>
